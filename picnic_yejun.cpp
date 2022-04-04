@@ -1,5 +1,7 @@
 #include <iostream>
 
+// 157p
+
 int main(void)
 {
     int caseNum;
@@ -22,12 +24,6 @@ int main(void)
             scanf("%d %d", &x, &y);
             pairs[x][y] = true;
         }
-
-        for (int j = 0; j < student_num; j++)
-        {
-            
-        }
-
     }
 
     return 0;
