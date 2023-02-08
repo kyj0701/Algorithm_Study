@@ -1,15 +1,13 @@
 #include <iostream>
 #include <queue>
-#include <tuple>
 
 using namespace std;
 
-int storage[101][101][101];
-queue<tuple<int, int, int>> q;
-int dx[6] = {0, 0, 0, 0, -1, 1};
-int dy[6] = {0, 0, -1, 1, 0, 0};
-int dz[6] = {-1, 1, 0, 0 };
-int M, N, H;
+int storage[1001][1001];
+queue<pair<int, int>> q;
+int dx[4] = {0, 0, -1, 1};
+int dy[4] = {-1, 1, 0, 0};
+int M, N;
 int res = 0;
 
 void DFS(int j, int i);
@@ -20,25 +18,21 @@ int main(void)
     cin.tie(0);
     cout.tie(0);
 
-    cin >> M >> N >> H;
+    cin >> M >> N;
 
-    for (int k = 0; k < H; k++)
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < M; j++)
         {
-        for (int i = 0; i < N; i++)
-        {
-            for (int j = 0; j < M; j++)
-            {
-                cin >> storage[i][j][k];
-                if (storage[i][j][k] == 1) q.push({i, j, k});
-            }
+            cin >> storage[i][j];
+            if (storage[i][j] == 1) q.push({i, j});
         }
     }
 
     while (!q.empty())
     {
-        int z = get<2>(q.front());
-        int y = get<1>(q.front());
-        int x = get<0>(q.front());
+        int y = q.front().first;
+        int x = q.front().second;
         q.pop();
 
         for (int i = 0; i < 4; i++)
@@ -48,41 +42,25 @@ int main(void)
         
             if (ny < 0 || ny >= N || nx < 0 || nx >= M) continue;
 
-            if (storage[ny][nx][z] == 0)
+            if (storage[ny][nx] == 0)
             {
-                storage[ny][nx][z] = storage[y][x][z] + 1;
-                q.push({ny, nx, z});
-            }
-        }
-
-        for (int i = 0; i < 2; i++)
-        {
-            int nz = z + dz[i];
-
-            if (nz < 0 || nz >= H) continue;
-
-            if (storage[y][x][nz] == 0)
-            {
-                storage[y][x][nz] = storage[y][x][nz] + 1;
-                q.push({y, x, nz});
+                storage[ny][nx] = storage[y][x] + 1;
+                q.push({ny, nx});
             }
         }
     }
 
-    for (int k = 0; k < H; k++)
+    for (int i = 0; i < N; i++)
     {
-        for (int i = 0; i < N; i++)
+        for (int j = 0; j < M; j++)
         {
-            for (int j = 0; j < M; j++)
+            if (storage[i][j] == 0) 
             {
-                if (storage[i][j][k] == 0) 
-                {
-                    cout << "-1";
-                    return 0;
-                }
-
-                if (res < storage[i][j][k]) res = storage[i][j][k];
+                cout << "-1";
+                return 0;
             }
+
+            if (res < storage[i][j]) res = storage[i][j];
         }
     }
 
