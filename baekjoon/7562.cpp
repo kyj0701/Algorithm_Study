@@ -45,7 +45,6 @@ int main(void)
         cin >> I;
         cin >> curX >> curY;
         cin >> tarX >> tarY;
-        answer = 0;
         cnt = 0;
 
         q.emplace(curX, curY, 0);
