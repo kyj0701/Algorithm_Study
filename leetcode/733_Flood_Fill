@@ -1,0 +1,41 @@
+using System.Collections.Generic;
+
+public class Solution {
+    int[] dx = new int[4] {0,0,-1,1};
+    int[] dy = new int[4] {-1,1,0,0};
+
+    public int[][] FloodFill(int[][] image, int sr, int sc, int color)
+    {
+        if (image[sr][sc] == color) return image;
+
+        Queue<Tuple<int,int>> q = new Queue<Tuple<int,int>>();
+
+        q.Enqueue(new Tuple<int, int>(sr, sc));
+        int start = image[sr][sc];
+
+        while(q.Count != 0)
+        {
+            int x = q.Peek().Item1;
+            int y = q.Peek().Item2;
+            q.Dequeue();
+
+            if (image[x][y] == start) image[x][y] = color;
+
+            for (int i = 0; i < 4; i++)
+            {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                if (nx < 0 || nx >= image.Length || ny < 0 || ny >= image[0].Length) continue;
+
+                if (image[nx][ny] == start)
+                {
+                    image[nx][ny] = color;
+                    q.Enqueue(new Tuple<int, int>(nx, ny));
+                }
+            }
+        }
+
+        return image;
+    }
+}
